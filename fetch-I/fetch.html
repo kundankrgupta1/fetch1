@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch - I</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 10px;
+        }
+        #container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        #container > div{
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 12px;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+        #container > div > img{
+            border-radius: 50%;
+            height: 100px;
+        }
+
+        button{
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: aqua;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="userData()">Fetch Users</button>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    function userData(){
+        const container = document.getElementById("container");
+
+        function showData(data) {
+            data.forEach((el) => {
+                const div = document.createElement("div");
+
+                const img = document.createElement("img");
+                img.src = el.avatar;
+
+                const p_Name = document.createElement("p");
+                p_Name.textContent = `Name : ${el.first_name} ${el.last_name}`;
+
+                const p_email = document.createElement("p");
+                p_email.textContent =`Email : ${el.email}`;
+
+                div.append(img, p_Name, p_email);
+
+                container.append(div);
+            });
+        }
+
+        fetch("https://reqres.in/api/users")
+            .then((res) => res.json())
+            .then((data) => showData(data.data))
+            .catch((err) => console.log(err))
+    }
+    userData();
+</script>
